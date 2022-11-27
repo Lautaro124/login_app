@@ -22,9 +22,6 @@ export default function App () {
   const auth = getAuth(firebaseApp)
 
   const createAcount = () => {
-    console.log(email)
-    console.log(password)
-    
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
           console.log('User created')
