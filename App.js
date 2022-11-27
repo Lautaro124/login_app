@@ -3,16 +3,7 @@ import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native'
 import { initializeApp } from 'firebase/app'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBVSRfIED7vsvqXtnVfItNvjKpamWH-nSo",
-  authDomain: "login-auth-5fd49.firebaseapp.com",
-  projectId: "login-auth-5fd49",
-  storageBucket: "login-auth-5fd49.appspot.com",
-  messagingSenderId: "1020974522616",
-  appId: "1:1020974522616:web:ba05023719a49dc242db0d",
-  measurementId: "G-J5RSC53VEG"
-}
+import { firebaseConfig } from './firebase-config'
 
 export default function App () {
   const [email, setEmail] = useState('')
@@ -27,6 +18,7 @@ export default function App () {
           console.log('User created')
           const user = userCredentials.user
           console.log(user.email)
+          Alert.alert('Hello '+user.email)
         })
       .catch((error) => {
         console.log('error')
