@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Dimensions, Text, View, TextInput, TouchableOpacity, Alert, Image } from 'react-native'
 import { initializeApp } from 'firebase/app'
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { firebaseConfig } from './firebase-config'
 import Background from './assets/bacground.png'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
@@ -25,11 +25,20 @@ export default function App() {
       })
       .catch((error) => {
         if (error.message.includes('auth/email-already-in-use')) {
-          Alert.alert('Email already exists');
+          loginAcount()
         }
         else {
           Alert.alert(error.message)
         }
+      })
+  }
+  const loginAcount = () => {
+    signInWithEmailAndPassword(auth, email.trim(), password)
+      .then((userCredentials) => {
+        Alert.alert('Welcome again! '+ userCredentials.user.email)
+      })
+      .catch((error) => {
+        Alert.alert('Your credentials are incorrect')
       })
   }
 
@@ -44,7 +53,7 @@ export default function App() {
         <KeyboardAwareScrollView
           keyboardShouldPersistTaps='always'
           style={styles.containerForm}>
-          <Text style={styles.title}>Sign up</Text>
+          <Text style={styles.title}>Login</Text>
           <View style={styles.form}>
             <TextInput
               placeholder={'Write your email address'}
@@ -61,7 +70,7 @@ export default function App() {
               onPress={createAcount}
             >
               <Text style={styles.textButton}>
-                Sing up
+                Sing in
               </Text>
             </TouchableOpacity>
           </View>
@@ -92,7 +101,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingVertical: 10,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     shadowColor: "#000",
@@ -117,7 +126,7 @@ const styles = StyleSheet.create({
   },
   form: {
     width: '100%',
-    height: '60%',
+    height: '70%',
     flexDirection: 'column',
     justifyContent: 'space-around',
   },
